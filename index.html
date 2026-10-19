@@ -3,105 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>정보보호 실무편람 2026</title>
+  <title>정보보호 업무 실무편람 2026</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <!-- 좌측 사이드바 네비게이션 (OpenAI Left Rail 구조) -->
-    <aside class="sidebar" aria-label="주 메뉴">
-      <div class="sidebar-top">
-        <button class="brand-btn" onclick="navigateView('overview')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>
-          </svg>
-          <span>정보보호 실무 2026</span>
-        </button>
-        <button class="icon-btn" onclick="toggleSidebar()" title="사이드바 접기/펴기">
+  <div class="chatgpt-layout">
+    <!-- 1. 좌측 사이드바 (ChatGPT Left Sidebar 그대로 재현) -->
+    <aside class="chatgpt-sidebar" aria-label="사이드바 메뉴">
+      <div class="sidebar-header">
+        <button class="icon-btn" onclick="toggleSidebar()" title="사이드바 닫기">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/>
           </svg>
         </button>
-      </div>
-
-      <!-- ⌘K 검색 트리거 -->
-      <div class="sidebar-search-trigger" onclick="focusPromptSearch()">
-        <span style="display:flex; align-items:center; gap:8px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        <button class="icon-btn" onclick="resetStreamToHome()" title="새 안내 화면 (초기화)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
           </svg>
-          <span>실무편람 통합 검색</span>
-        </span>
-        <span class="kbd">⌘K</span>
+        </button>
       </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-group">
-          <div class="nav-group-label">Overview</div>
-          <button class="nav-item active" data-view="overview" onclick="navigateView('overview')">
-            <span>홈 · 대시보드</span>
-          </button>
-          <button class="nav-item" data-view="csd" onclick="navigateView('csd')">
-            <span>사이버보안 진단의 날</span>
-            <span class="nav-item-count">12개월</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-label">Operations &amp; Audit</div>
-          <button class="nav-item" data-view="schedule" onclick="navigateView('schedule')">
-            <span>시기별 추진 체크리스트</span>
-            <span class="nav-item-count" id="nav-count-schedule">16</span>
-          </button>
-          <button class="nav-item" data-view="audit" onclick="navigateView('audit')">
-            <span>감사 중점 자가진단</span>
-            <span class="nav-item-count" id="nav-count-audit">18</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-label">Manual Handbook</div>
-          <button class="nav-item" data-view="manual-ch1" onclick="navigateManualPart('제1장 정보보안')">
-            <span>제1장 정보보안</span>
-            <span class="nav-item-count">Ⅰ~Ⅳ</span>
-          </button>
-          <button class="nav-item" data-view="manual-ch2" onclick="navigateManualPart('제2장 개인정보 보호')">
-            <span>제2장 개인정보 보호</span>
-            <span class="nav-item-count">Ⅰ~Ⅺ</span>
-          </button>
-          <button class="nav-item" data-view="manual-ch3" onclick="navigateManualPart('제3장 기타 정보업무')">
-            <span>제3장 기타 정보업무</span>
-            <span class="nav-item-count">Ⅰ~Ⅹ</span>
-          </button>
-          <button class="nav-item" data-view="training" onclick="navigateView('training')">
-            <span>제4장 교직원 연수 슬라이드</span>
-            <span class="nav-item-count">08</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-label">Templates &amp; Directory</div>
-          <button class="nav-item" data-view="forms" onclick="navigateView('forms')">
-            <span>별지서식 · 기안문 생성기</span>
-            <span class="nav-item-count">26</span>
-          </button>
-          <button class="nav-item" data-view="contacts" onclick="navigateView('contacts')">
-            <span>비상연락처 · 시스템</span>
-            <span class="nav-item-count">24</span>
-          </button>
-        </div>
-      </nav>
+      <div class="sidebar-scroll" id="sidebar-menu-list"></div>
 
       <div class="sidebar-footer">
-        <button class="profile-pill" onclick="openSchoolModal()" title="학교 및 담당자 설정">
-          <span class="profile-avatar" id="sidebar-avatar">전</span>
+        <button class="user-profile-btn" onclick="openSchoolModal()" title="내 학교 및 담당자 설정">
+          <span class="avatar-circle" id="sidebar-avatar">전</span>
           <div style="overflow:hidden;">
-            <div id="sidebar-school-name" style="font-size:0.82rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">전남○○학교</div>
-            <div id="sidebar-manager-name" style="font-size:0.72rem; color:var(--text-muted);">정보부장 교사 홍길동</div>
+            <div id="sidebar-school" style="font-size:0.83rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">전남○○학교</div>
+            <div id="sidebar-manager" style="font-size:0.72rem; color:var(--text-muted);">정보부장 교사 홍길동</div>
           </div>
         </button>
-        <button class="icon-btn" onclick="toggleTheme()" title="라이트/다크 모드 전환">
+        <button class="icon-btn" onclick="toggleTheme()" title="라이트/다크 테마 전환">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
@@ -109,50 +41,62 @@
       </div>
     </aside>
 
-    <!-- 우측 메인 캔버스 영역 -->
-    <div class="main-workspace">
-      <header class="workspace-topbar">
-        <div class="topbar-left">
-          <button class="icon-btn" onclick="toggleSidebar()" title="메뉴 토글">
+    <!-- 2. 중앙 대화형 스트림 영역 (하단 채팅 입력창 없이 클릭형 대화 스트림으로 동작) -->
+    <main class="chat-main">
+      <header class="chat-topbar">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="icon-btn" onclick="toggleSidebar()" title="사이드바 열기/닫기">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="M3 12h18M3 6h18M3 18h18"/>
             </svg>
           </button>
-          <span class="breadcrumb" id="topbar-breadcrumb">Overview</span>
+          <button class="model-selector-btn" onclick="resetStreamToHome()">
+            <span>정보보호 실무편람</span>
+            <span class="model-Selector-sub">2026 Edition</span>
+          </button>
         </div>
-        <div class="topbar-right">
-          <button class="btn btn-sm" onclick="openSchoolModal()">학교 정보 설정</button>
-          <a class="btn btn-sm" href="https://172.16.100.30/mc" target="_blank" rel="noopener">내PC지키미 관리자 ↗</a>
-          <a class="btn btn-sm btn-primary" href="https://tims.jne.go.kr" target="_blank" rel="noopener">TIMS 포털 ↗</a>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="chip-btn" onclick="openSchoolModal()">학교 정보 설정</button>
+          <button class="chip-btn" onclick="resetStreamToHome()">대화 초기화</button>
         </div>
       </header>
 
-      <!-- 중앙 동적 캔버스 -->
-      <main class="canvas-container" id="main-canvas"></main>
-    </div>
-  </div>
-
-  <!-- 우측 슬라이드오버 인스펙터 드로어 (서식·기안문·매뉴얼 상세 즉시 열람) -->
-  <div class="inspector-backdrop" id="inspector-backdrop" onclick="closeInspector()"></div>
-  <aside class="inspector-drawer" id="inspector-drawer" aria-label="상세 보기 패널">
-    <div class="inspector-header">
-      <span id="inspector-badge" class="badge">DETAIL</span>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-sm" onclick="window.print()">인쇄 / PDF</button>
-        <button class="btn btn-sm" onclick="closeInspector()">닫기 (Esc)</button>
+      <div class="chat-scroll-area" id="chat-scroll-area">
+        <div class="chat-container">
+          <!-- 상단 웰컴 & 주제 선택기 -->
+          <div id="welcome-section"></div>
+          <!-- 클릭한 주제들이 ChatGPT 답변처럼 쌓이는 대화 스트림 -->
+          <div id="conversation-stream" class="conversation-stream"></div>
+        </div>
       </div>
-    </div>
-    <div class="inspector-body" id="inspector-body"></div>
-  </aside>
+    </main>
+
+    <!-- 3. 우측 분할 ChatGPT Canvas 문서 창 (서식·기안문·대장·슬라이드 열람 및 편집) -->
+    <aside class="chatgpt-canvas-pane" id="canvas-pane" aria-label="Canvas 문서 편집기">
+      <div class="canvas-header">
+        <div class="canvas-title-wrap">
+          <span class="badge" id="canvas-badge">Canvas</span>
+          <span id="canvas-title">문서 미리보기</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button class="chip-btn" onclick="openSchoolModal()">학교 설정</button>
+          <button class="chip-btn" onclick="window.print()">인쇄</button>
+          <button class="icon-btn" onclick="closeCanvas()" title="Canvas 닫기">✕</button>
+        </div>
+      </div>
+      <div class="canvas-body" id="canvas-body"></div>
+    </aside>
+  </div>
 
   <!-- 학교 기본 정보 설정 모달 -->
   <div id="school-modal" class="modal-backdrop">
     <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="font-size:1.1rem; font-weight:600;">학교 및 담당자 프로필 설정</h3>
-        <button class="btn btn-sm" onclick="closeSchoolModal()">닫기</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <h3 style="font-size:1.05rem; font-weight:600;">학교 및 담당자 설정</h3>
+        <button class="chip-btn" onclick="closeSchoolModal()">닫기</button>
       </div>
-      <p style="font-size:0.83rem; color:var(--text-secondary);">입력된 정보는 모든 내부결재 기안문과 대장 양식에 자동으로 치환됩니다.</p>
+      <p style="font-size:0.82rem; color:var(--text-secondary);">입력된 학교·담당자 정보는 우측 Canvas에 열리는 모든 기안문과 대장에 자동 기입됩니다.</p>
       <form onsubmit="saveSchoolInfoForm(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -188,9 +132,9 @@
             <input id="inp-masterId" type="text" />
           </div>
         </div>
-        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-          <button type="button" class="btn" onclick="closeSchoolModal()">취소</button>
-          <button type="submit" class="btn btn-primary">저장</button>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+          <button type="button" class="chip-btn" onclick="closeSchoolModal()">취소</button>
+          <button type="submit" class="chip-btn primary">저장</button>
         </div>
       </form>
     </div>
