@@ -3,140 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>정보보호 업무 실무편람 2026</title>
+  <title>2026 정보보호 업무 실무편람 — OpenAI Style Portal</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="chatgpt-layout">
-    <!-- 1. 좌측 사이드바 (ChatGPT Left Sidebar 그대로 재현) -->
-    <aside class="chatgpt-sidebar" aria-label="사이드바 메뉴">
-      <div class="sidebar-header">
-        <button class="icon-btn" onclick="toggleSidebar()" title="사이드바 닫기">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/>
-          </svg>
+  <!-- 1. OpenAI.com 상단 고정 네비게이션 바 -->
+  <header class="openai-header">
+    <div class="header-container">
+      <div class="header-left">
+        <button class="openai-wordmark" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+          <span>정보보호 실무편람</span>
         </button>
-        <button class="icon-btn" onclick="resetStreamToHome()" title="새 안내 화면 (초기화)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-          </svg>
-        </button>
-      </div>
 
-      <div class="sidebar-scroll" id="sidebar-menu-list"></div>
-
-      <div class="sidebar-footer">
-        <button class="user-profile-btn" onclick="openSchoolModal()" title="내 학교 및 담당자 설정">
-          <span class="avatar-circle" id="sidebar-avatar">전</span>
-          <div style="overflow:hidden;">
-            <div id="sidebar-school" style="font-size:0.83rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">전남○○학교</div>
-            <div id="sidebar-manager" style="font-size:0.72rem; color:var(--text-muted);">정보부장 교사 홍길동</div>
-          </div>
-        </button>
-        <button class="icon-btn" onclick="toggleTheme()" title="라이트/다크 테마 전환">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-        </button>
-      </div>
-    </aside>
-
-    <!-- 2. 중앙 대화형 스트림 영역 (하단 채팅 입력창 없이 클릭형 대화 스트림으로 동작) -->
-    <main class="chat-main">
-      <header class="chat-topbar">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="icon-btn" onclick="toggleSidebar()" title="사이드바 열기/닫기">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M3 12h18M3 6h18M3 18h18"/>
+        <nav class="top-nav" aria-label="주 메뉴">
+          <a class="top-nav-link" href="#sec-schedule">시기별 일정</a>
+          <a class="top-nav-link" href="#sec-csd">진단의 날</a>
+          <a class="top-nav-link" href="#sec-manuals">실무 매뉴얼</a>
+          <a class="top-nav-link" href="#sec-forms">별지서식 (26)</a>
+          <a class="top-nav-link" href="#sec-audit">감사 자가진단</a>
+          <a class="top-nav-link" href="#sec-contacts">연락처</a>
+          <button class="search-trigger-btn" onclick="toggleSearchOverlay()" title="통합 검색">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
           </button>
-          <button class="model-selector-btn" onclick="resetStreamToHome()">
-            <span>정보보호 실무편람</span>
-            <span class="model-Selector-sub">2026 Edition</span>
-          </button>
-        </div>
+        </nav>
+      </div>
 
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="chip-btn" onclick="openSchoolModal()">학교 정보 설정</button>
-          <button class="chip-btn" onclick="resetStreamToHome()">대화 초기화</button>
-        </div>
-      </header>
+      <div class="header-right">
+        <button class="btn-dark-pill" id="theme-toggle-btn" onclick="toggleTheme()" title="라이트/다크 모드 전환">
+          <span id="theme-toggle-label">다크 모드</span>
+        </button>
+        <button class="btn-dark-pill" onclick="openSchoolModal()">
+          <span id="header-school-label">전남○○학교 설정</span>
+          <span style="font-size:0.7rem; opacity:0.7;">⌄</span>
+        </button>
+        <a class="btn-white-pill" href="https://tims.jne.go.kr" target="_blank" rel="noopener">
+          <span>TIMS 바로가기</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
-      <div class="chat-scroll-area" id="chat-scroll-area">
-        <div class="chat-container">
-          <!-- 상단 웰컴 & 주제 선택기 -->
-          <div id="welcome-section"></div>
-          <!-- 클릭한 주제들이 ChatGPT 답변처럼 쌓이는 대화 스트림 -->
-          <div id="conversation-stream" class="conversation-stream"></div>
+  <!-- 상단 돋보기 클릭 시 열리는 검색 오버레이 -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-overlay-inner">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.82rem; color:var(--text-secondary);">실무편람 매뉴얼 · 별지서식 26종 · 내부결재 기안문 · 연락처 실시간 검색</span>
+        <button class="outline-pill" style="padding:4px 12px; font-size:0.75rem;" onclick="toggleSearchOverlay()">닫기 (Esc)</button>
+      </div>
+      <input id="global-search-input" class="search-overlay-input" type="search" placeholder="검색어를 입력하세요 (예: 비공개, 내PC지키미, 위탁계약서, CCTV, 인증서...)" autocomplete="off" />
+      <div id="global-search-results" style="margin-top:16px; max-height:60vh; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- 2. OpenAI.com 중앙 히어로 영역 (중앙 채팅 입력창 없이 '무엇을 도와드릴까요?' + 알약 버튼들만 배치) -->
+  <section class="openai-hero">
+    <h1>무엇을 도와드릴까요?</h1>
+    <div class="hero-pills-row">
+      <button class="outline-pill" onclick="openTop5Modal()">감사 최다 지적 Top 5 알아보기</button>
+      <a class="outline-pill" href="#sec-csd">이달의 사이버보안 진단의 날</a>
+      <a class="outline-pill" href="#sec-schedule">시기별 업무 체크리스트</a>
+      <a class="outline-pill" href="#sec-forms">내부결재 기안문 · 서식 26종</a>
+      <button class="outline-pill" onclick="openSlidesModal()">교직원 연수 슬라이드</button>
+      <a class="outline-pill" href="#sec-audit">감사 자가진단</a>
+    </div>
+  </section>
+
+  <!-- 3. OpenAI.com 메인 쇼케이스 & 섹션 영역 -->
+  <main class="openai-main">
+    <!-- 비대칭 2단 메인 쇼케이스 카드 (openai.com 하단 화이트 카드 + 우측 웜 그라데이션 카드 그대로 재현) -->
+    <section class="featured-bento" id=" featured-showcase"></section>
+
+    <!-- 섹션 1: 실무편람 매뉴얼 쇼케이스 (제1장~제3장 미디어 카드 그리드) -->
+    <section class="section-block" id="sec-manuals">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">2026 정보보호 실무 매뉴얼</h2>
+          <p class="section-sub">제1장 정보보안 · 제2장 개인정보 보호 · 제3장 기타 정보업무(나이스·K-에듀파인·인증서·TIMS) 핵심 지침</p>
+        </div>
+        <button class="outline-pill" onclick="openSlidesModal()">제4장 교직원 연수 슬라이드 열기 ↗</button>
+      </div>
+      <div class="cards-grid-4" id="manuals-card-grid"></div>
+    </section>
+
+    <!-- 섹션 2: 2026년 매월 세 번째 수요일 사이버보안 진단의 날 -->
+    <section class="section-block" id="sec-csd">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">사이버보안 진단의 날 (매월 3주 수요일)</h2>
+          <p class="section-sub">내PC지키미 100점 조치 · 휴대용 저장매체 월례 점검대장 · 개인영상정보(CCTV) 30일 주기 자동삭제 점검 기록</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a class="btn-white-pill" href="https://172.16.100.30/mc" target="_blank" rel="noopener">내PC지키미 관리자 접속 ↗</a>
         </div>
       </div>
-    </main>
+      <div class="cards-grid-4" id="csd-card-grid"></div>
+    </section>
 
-    <!-- 3. 우측 분할 ChatGPT Canvas 문서 창 (서식·기안문·대장·슬라이드 열람 및 편집) -->
-    <aside class="chatgpt-canvas-pane" id="canvas-pane" aria-label="Canvas 문서 편집기">
-      <div class="canvas-header">
-        <div class="canvas-title-wrap">
-          <span class="badge" id="canvas-badge">Canvas</span>
-          <span id="canvas-title">문서 미리보기</span>
+    <!-- 섹션 3: 시기별 정보보호 업무 추진 체크리스트 -->
+    <section class="section-block" id="sec-schedule">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">시기별 정보보호 업무 추진 일정</h2>
+          <p class="section-sub">실무편람 p.6 기준 시기별 필수 과업 체크리스트입니다. 각 항목에서 기안문과 매뉴얼을 즉시 열람할 수 있습니다.</p>
         </div>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <button class="chip-btn" onclick="openSchoolModal()">학교 설정</button>
-          <button class="chip-btn" onclick="window.print()">인쇄</button>
-          <button class="icon-btn" onclick="closeCanvas()" title="Canvas 닫기">✕</button>
+        <div class="hero-pills-row" id="schedule-filter-pills"></div>
+      </div>
+      <div class="dark-list" id="schedule-list-container"></div>
+    </section>
+
+    <!-- 섹션 4: 별지 서식 & 내부결재 기안문 26종 자동 생성기 -->
+    <section class="section-block" id="sec-forms">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">별지 서식 &amp; 내부결재 기안문 (26종)</h2>
+          <p class="section-sub">우리 학교 정보(<span id="forms-school-indicator">전남○○학교</span>)가 자동으로 채워지는 기안문 및 관리대장 라이브러리</p>
+        </div>
+        <div class="hero-pills-row" id="forms-filter-pills"></div>
+      </div>
+      <div class="cards-grid-3" id="forms-card-grid"></div>
+    </section>
+
+    <!-- 섹션 5: 감사 중점 점검사항 자가진단 (18개 영역) -->
+    <section class="section-block" id="sec-audit">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">감사 중점 점검사항 자가진단 (18개 영역)</h2>
+          <p class="section-sub">실무편람 p.7 기준 정보보안·개인정보보호·교육·정품SW·유지관리 감사 대비 체크리스트</p>
+        </div>
+        <div class="hero-pills-row" id="audit-filter-pills"></div>
+      </div>
+      <div class="cards-grid-3" id="audit-card-grid"></div>
+    </section>
+
+    <!-- 섹션 6: 시스템 및 업무 관련 연락처 디렉토리 -->
+    <section class="section-block" id="sec-contacts">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">비상연락처 &amp; 나이스 상담센터 디렉토리</h2>
+          <p class="section-sub">실무편람 p.96~97 기준 장애 접수, 스쿨넷, 보안관제, 정품 SW, 나이스 영역별 직통 번호</p>
         </div>
       </div>
-      <div class="canvas-body" id="canvas-body"></div>
-    </aside>
+      <div class="dark-list" id="contacts-list-container"></div>
+    </section>
+  </main>
+
+  <!-- 상세 열람 모달 (매뉴얼 / 기안문·대장 / 연수 슬라이드 / Top 5 수칙) -->
+  <div class="detail-modal-backdrop" id="detail-modal" onclick="if(event.target===this) closeDetailModal()">
+    <div class="detail-modal-box">
+      <div class="detail-modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="outline-pill" style="padding:3px 12px; font-size:0.74rem;" id="detail-modal-badge">DETAIL</span>
+          <strong id="detail-modal-title" style="font-size:1.05rem;">상세 보기</strong>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-dark-pill" onclick="window.print()">인쇄 / PDF</button>
+          <button class="btn-white-pill" onclick="closeDetailModal()">닫기 (Esc)</button>
+        </div>
+      </div>
+      <div class="detail-modal-body" id="detail-modal-body"></div>
+    </div>
   </div>
 
   <!-- 학교 기본 정보 설정 모달 -->
-  <div id="school-modal" class="modal-backdrop">
-    <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <h3 style="font-size:1.05rem; font-weight:600;">학교 및 담당자 설정</h3>
-        <button class="chip-btn" onclick="closeSchoolModal()">닫기</button>
+  <div class="detail-modal-backdrop" id="school-modal" onclick="if(event.target===this) closeSchoolModal()">
+    <div class="detail-modal-box" style="max-width:560px;">
+      <div class="detail-modal-header">
+        <strong>내 학교 및 담당자 정보 설정</strong>
+        <button class="btn-dark-pill" onclick="closeSchoolModal()">닫기</button>
       </div>
-      <p style="font-size:0.82rem; color:var(--text-secondary);">입력된 학교·담당자 정보는 우측 Canvas에 열리는 모든 기안문과 대장에 자동 기입됩니다.</p>
-      <form onsubmit="saveSchoolInfoForm(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="inp-schoolName">학교명</label>
-            <input id="inp-schoolName" type="text" required />
+      <div class="detail-modal-body">
+        <p style="font-size:0.85rem; color:var(--text-secondary);">입력하신 학교 정보는 모든 내부결재 기안문과 대장 양식에 자동으로 반영됩니다.</p>
+        <form onsubmit="saveSchoolInfoForm(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="inp-schoolName">학교명</label>
+              <input id="inp-schoolName" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="inp-eduOfficeName">관할 교육지원청</label>
+              <input id="inp-eduOfficeName" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="inp-principalName">교장 성명 (CPO)</label>
+              <input id="inp-principalName" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="inp-vicePrincipalName">교감 성명</label>
+              <input id="inp-vicePrincipalName" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="inp-adminHeadName">행정실장 성명</label>
+              <input id="inp-adminHeadName" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="inp-managerRole">담당자 직위</label>
+              <input id="inp-managerRole" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="inp-managerName">담당자 성명</label>
+              <input id="inp-managerName" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="inp-masterId">기관마스터 ID</label>
+              <input id="inp-masterId" type="text" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="inp-eduOfficeName">관할 교육지원청</label>
-            <input id="inp-eduOfficeName" type="text" required />
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="button" class="btn-dark-pill" onclick="closeSchoolModal()">취소</button>
+            <button type="submit" class="btn-white-pill">저장 및 전체 반영</button>
           </div>
-          <div class="form-group">
-            <label for="inp-principalName">교장 성명 (CPO)</label>
-            <input id="inp-principalName" type="text" />
-          </div>
-          <div class="form-group">
-            <label for="inp-vicePrincipalName">교감 성명</label>
-            <input id="inp-vicePrincipalName" type="text" />
-          </div>
-          <div class="form-group">
-            <label for="inp-adminHeadName">행정실장 성명</label>
-            <input id="inp-adminHeadName" type="text" />
-          </div>
-          <div class="form-group">
-            <label for="inp-managerRole">담당자 직위</label>
-            <input id="inp-managerRole" type="text" />
-          </div>
-          <div class="form-group">
-            <label for="inp-managerName">담당자 성명</label>
-            <input id="inp-managerName" type="text" />
-          </div>
-          <div class="form-group">
-            <label for="inp-masterId">기관마스터 ID</label>
-            <input id="inp-masterId" type="text" />
-          </div>
-        </div>
-        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
-          <button type="button" class="chip-btn" onclick="closeSchoolModal()">취소</button>
-          <button type="submit" class="chip-btn primary">저장</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 
