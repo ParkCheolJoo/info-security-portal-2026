@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 정보보호 업무 실무편람 통합 포털</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 상단 헤더 -->
+  <header class="top-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-badge">2026 실무편람</span>
+        <div class="brand-title">
+          <h1>학교 정보보호 업무 올인원 포털</h1>
+          <p>정보보안 · 개인정보보호 · 나이스/K-에듀파인 · 별지서식 26종 자동화</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="global-search-wrap">
+          <span class="search-icon">🔍</span>
+          <input id="global-search-input" type="search" placeholder="매뉴얼, 별지서식, 기안문, 전화번호 검색..." autocomplete="off" />
+          <div id="global-search-results" style="display:none; position:absolute; top:42px; left:0; right:0; background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); z-index:250; max-height:380px; overflow-y:auto;"></div>
+        </div>
+        <button class="btn" onclick="openSchoolModal()" title="내 학교 정보 설정">
+          🏫 <span id="header-school-badge">전남○○학교</span>
+        </button>
+        <button class="btn" onclick="toggleTheme()" title="다크모드 전환">🌗 테마</button>
+      </div>
+    </div>
+
+    <!-- 메인 네비게이션 탭 -->
+    <nav class="nav-tabs" aria-label="주요 메뉴">
+      <button class="nav-tab active" data-tab="dashboard">📊 대시보드</button>
+      <button class="nav-tab" data-tab="schedule">📅 시기별 일정 &amp; 진단의 날</button>
+      <button class="nav-tab" data-tab="audit">✅ 감사 대비 자가진단</button>
+      <button class="nav-tab" data-tab="manual">📖 실무 매뉴얼 백과</button>
+      <button class="nav-tab" data-tab="forms">📝 별지서식·기안문 생성기</button>
+      <button class="nav-tab" data-tab="training">🎓 교직원 연수 슬라이드</button>
+      <button class="nav-tab" data-tab="contacts">☎️ 비상연락처 &amp; 시스템</button>
+    </nav>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <main class="container">
+    <!-- 1. 대시보드 패널 -->
+    <section id="panel-dashboard" class="tab-panel active">
+      <div id="dash-summary-cards" class="grid-3"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔥 미완료 핵심 필수 업무</span>
+            <button class="btn btn-sm" onclick="switchTab('schedule')">전체 일정 보기</button>
+          </div>
+          <div id="dash-urgent-tasks" class="task-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚨 감사 최다 지적 Top 5 핵심 체크</span>
+            <span class="badge badge-danger">필독</span>
+          </div>
+          <div class="task-list">
+            <div class="alert-box danger">
+              <strong>1. K-에듀파인 개인정보 문서 보안설정 누락</strong>
+              <p>개인정보 포함 공문은 반드시 <strong>「대국민 비공개(6호)」 + 「직원열람제한: 영구」</strong>를 동시에 설정! (전년도 결재 문서는 당해 5월까지만 문서등록대장에서 수정 가능)</p>
+            </div>
+            <div class="alert-box warning">
+              <strong>2. K-에듀파인 공문서 하단 상용메일 기재 금지</strong>
+              <p><code>K-에듀파인 &gt; 개인설정 &gt; 개인정보관리</code>에서 이메일을 반드시 <strong>공직자통합메일(@korea.kr)</strong>로 변경하세요.</p>
+            </div>
+            <div class="alert-box">
+              <strong>3. 매월 세 번째 수요일 3대 세트 (내PC지키미 + USB점검 + CCTV파기)</strong>
+              <p>매월 사이버보안 진단의 날에 ① 내PC지키미 100점, ② 휴대용 저장매체 점검대장(별지 4-2), ③ 개인영상정보 관리대장(별지 11 - 30일 자동삭제 점검일시)을 함께 기록하세요.</p>
+            </div>
+            <div class="alert-box warning">
+              <strong>4. 채용공고 시 주민등록번호·가족사항 등 과도한 수집 금지</strong>
+              <p>기간제·강사 채용 응시원서에 법적 근거 없는 주민등록번호(등본 포함), 출생지, 가족 학력·직장 요구 금지! (주민번호 법령 외 수집 시 5년 이하 징역/5천만원 이하 벌금)</p>
+            </div>
+            <div class="alert-box">
+              <strong>5. 알집·알PDF·포토샵·NesPDF 등 비인가 SW 설치 금지</strong>
+              <p>도교육청 일괄보급 정품은 <strong>알약 5.0, MS-EES, 한컴오피스 2024 EDU</strong>입니다. 개인 무료 SW를 학교 PC에 무단 설치하지 마세요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 시기별 일정 & 사이버보안 진단의 날 패널 -->
+    <section id="panel-schedule" class="tab-panel">
+      <div class="card mb-2">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📅 시기별 정보보호 업무 추진 체크리스트</h2>
+            <p class="muted">실무편람 p.6 기준 시기별 정보보안·개인정보보호 필수 추진 사항입니다. 체크 상태는 브라우저에 자동 저장됩니다.</p>
+          </div>
+        </div>
+        <div id="schedule-filter-bar" class="filter-bar"></div>
+        <div id="schedule-task-list" class="task-list"></div>
+      </div>
+
+      <div class="card" style="margin-top:24px;">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">🛡️ 2026년 월별 「사이버보안 진단의 날」 점검 트래커 (매월 세 번째 수요일)</h2>
+            <p class="muted">매월 세 번째 수요일(공휴일인 경우 익일)에 수행해야 할 3대 정기 점검(내PC지키미·USB점검대장·CCTV파기점검) 기록표입니다.</p>
+          </div>
+          <a class="btn btn-primary btn-sm" href="https://172.16.100.30/mc" target="_blank" rel="noopener">내PC지키미 관리자 접속 ↗</a>
+        </div>
+        <div id="csd-calendar-grid" class="csd-grid"></div>
+      </div>
+    </section>
+
+    <!-- 3. 감사 중점 점검사항 패널 -->
+    <section id="panel-audit" class="tab-panel">
+      <div class="card mb-2">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">✅ 감사 중점 점검사항 자가진단표 (실무편람 p.7 완벽 반영)</h2>
+            <p class="muted">종합감사 및 보안감사에 대비하여 우리 학교의 이행 현황을 영역별로 자가진단하세요.</p>
+          </div>
+          <button class="btn btn-sm" onclick="window.print()">🖨️ 진단표 인쇄</button>
+        </div>
+        <div id="audit-filter-bar" class="filter-bar"></div>
+      </div>
+      <div id="audit-checklist-container"></div>
+    </section>
+
+    <!-- 4. 실무 매뉴얼 백과 패널 -->
+    <section id="panel-manual" class="tab-panel">
+      <div class="manual-layout">
+        <aside id="manual-chapter-nav" class="chapter-nav"></aside>
+        <div id="manual-content-view"></div>
+      </div>
+    </section>
+
+    <!-- 5. 별지서식 & 기안문 자동 생성기 패널 -->
+    <section id="panel-forms" class="tab-panel">
+      <div class="card mb-2">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📝 별지 서식 &amp; 내부결재 기안문 자동 생성기</h2>
+            <p class="muted">우측 상단 [학교 정보 설정]에 입력한 학교명·교장·교감·담당자 성명이 기안문과 대장 양식에 자동으로 채워집니다.</p>
+          </div>
+          <a class="btn btn-primary btn-sm" href="https://tims.jne.go.kr" target="_blank" rel="noopener">TIMS 통합정보 보안서식 (80여종) ↗</a>
+        </div>
+        <div id="forms-filter-bar" class="filter-bar" style="margin-bottom:0;"></div>
+      </div>
+
+      <div class="manual-layout">
+        <aside id="forms-sidebar-list" class="chapter-nav" style="max-height:75vh; overflow-y:auto;"></aside>
+        <div id="forms-detail-view"></div>
+      </div>
+    </section>
+
+    <!-- 6. 교직원 연수 슬라이드 패널 -->
+    <section id="panel-training" class="tab-panel">
+      <div class="card mb-2">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">🎓 전 교직원 대상 정보보안·개인정보보호 연수용 슬라이드 (제4장 부록)</h2>
+            <p class="muted">실무편람 p.103~113 부록 교육자료를 교직원 회의 시 바로 화면에 띄워 연수할 수 있도록 구성한 프레젠테이션 뷰어입니다.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-sm" onclick="goToForm('form-app-1')">교육 실시 기안문 작성</button>
+            <button class="btn btn-sm btn-primary" onclick="goToForm('form-app-2')">교육 결과보고 기안문 작성</button>
+          </div>
+        </div>
+      </div>
+      <div id="training-slide-container"></div>
+    </section>
+
+    <!-- 7. 비상연락처 & 시스템 디렉토리 패널 -->
+    <section id="panel-contacts" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">☎️ 정보업무 및 나이스(NEIS) 상담센터 연락처 디렉토리 (p.96~97)</h2>
+            <p class="muted">장애 신고, 인증서, 스쿨넷, 보안관제, 정품 SW, 나이스 영역별 직통 번호 및 시스템 바로가기입니다.</p>
+          </div>
+        </div>
+        <div id="contact-filter-bar" class="filter-bar"></div>
+        <div style="overflow-x:auto;">
+          <table class="manual-table">
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>업무 및 시스템 구분</th>
+                <th>연락처 (콜센터)</th>
+                <th>담당 기관/부서</th>
+                <th>시스템 링크</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 학교 기본 정보 설정 모달 -->
+  <div id="school-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="card-header">
+        <h3 class="card-title">🏫 내 학교 및 담당자 정보 설정</h3>
+        <button class="btn btn-sm" onclick="closeSchoolModal()">✕ 닫기</button>
+      </div>
+      <p class="muted">입력하신 정보는 브라우저에만 안전하게 저장되며, 모든 내부결재 기안문과 대장 예시에 자동 적용됩니다.</p>
+      <form onsubmit="saveSchoolInfoForm(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="inp-schoolName">학교명</label>
+            <input id="inp-schoolName" type="text" placeholder="예: 전남○○초등학교" required />
+          </div>
+          <div class="form-group">
+            <label for="inp-eduOfficeName">관할 교육지원청</label>
+            <input id="inp-eduOfficeName" type="text" placeholder="예: 전라남도○○교육지원청" required />
+          </div>
+          <div class="form-group">
+            <label for="inp-principalName">교장 성명 (CPO)</label>
+            <input id="inp-principalName" type="text" placeholder="예: 김교장" />
+          </div>
+          <div class="form-group">
+            <label for="inp-vicePrincipalName">교감 성명 (분임보안/저장매체관리자)</label>
+            <input id="inp-vicePrincipalName" type="text" placeholder="예: 이교감" />
+          </div>
+          <div class="form-group">
+            <label for="inp-adminHeadName">행정실장 성명 (보안담당관)</label>
+            <input id="inp-adminHeadName" type="text" placeholder="예: 박실장" />
+          </div>
+          <div class="form-group">
+            <label for="inp-managerRole">담당자 직위/직급</label>
+            <input id="inp-managerRole" type="text" placeholder="예: 정보부장 교사" />
+          </div>
+          <div class="form-group">
+            <label for="inp-managerName">정보보호 담당자 성명</label>
+            <input id="inp-managerName" type="text" placeholder="예: 홍길동" />
+          </div>
+          <div class="form-group">
+            <label for="inp-masterId">기관마스터 ID (TIMS/내PC지키미)</label>
+            <input id="inp-masterId" type="text" placeholder="예: jn000000" />
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+          <button type="button" class="btn" onclick="closeSchoolModal()">취소</button>
+          <button type="submit" class="btn btn-primary">저장 및 전체 반영</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
